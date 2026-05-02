@@ -1,10 +1,7 @@
 package com.bookcase.bookcase.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -14,6 +11,10 @@ import java.time.LocalDateTime;
 @Builder
 public class Member extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long memberNo;
+
+    @Column(unique = true, nullable = false)
     private String email;
     private String password;
     private String nickname;
