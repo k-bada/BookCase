@@ -1,4 +1,4 @@
-package com.bookcase.bookcase.entity;
+package com.bookcase.bookcase.book.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

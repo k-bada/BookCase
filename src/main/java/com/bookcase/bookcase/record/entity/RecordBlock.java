@@ -1,5 +1,7 @@
-package com.bookcase.bookcase.entity;
+package com.bookcase.bookcase.record.entity;
 
+import com.bookcase.bookcase.global.entity.BaseEntity;
+import com.bookcase.bookcase.question.entity.Question;
 import jakarta.persistence.*;
 import lombok.*;
 

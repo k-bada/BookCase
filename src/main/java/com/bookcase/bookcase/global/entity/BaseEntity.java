@@ -1,4 +1,4 @@
-package com.bookcase.bookcase.entity;
+package com.bookcase.bookcase.global.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

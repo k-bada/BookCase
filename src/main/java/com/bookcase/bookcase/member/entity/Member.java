@@ -1,5 +1,7 @@
-package com.bookcase.bookcase.entity;
+package com.bookcase.bookcase.member.entity;
 
+import com.bookcase.bookcase.global.entity.BaseEntity;
+import com.bookcase.bookcase.book.entity.Genre;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,18 +18,12 @@ public class Member extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     private String email;
+
     private String password;
+
     private String nickname;
-    private Genre genre;
 
-    // 프로필 이미지 원본 이름
-    private String profileImageName;
 
-    // 저장된 이름
-    private String profileImageSavedName;
-
-    // 저장 경로
-    private String profileImagePath;
 }
 
 
