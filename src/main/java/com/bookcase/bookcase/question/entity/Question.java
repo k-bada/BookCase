@@ -1,4 +1,4 @@
-package com.bookcase.bookcase.entity;
+package com.bookcase.bookcase.question.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

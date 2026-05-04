@@ -1,4 +1,4 @@
-package com.bookcase.bookcase.entity;
+package com.bookcase.bookcase.record.entity;
 
 public enum BookStatus {
     WANT_TO_READ,   // 읽고 싶음

@@ -1,4 +1,4 @@
-package com.bookcase.bookcase.entity;
+package com.bookcase.bookcase.book.entity;
 
 public enum Genre {
     NOVEL,            // 소설

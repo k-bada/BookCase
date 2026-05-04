@@ -1,5 +1,8 @@
-package com.bookcase.bookcase.entity;
+package com.bookcase.bookcase.record.entity;
 
+import com.bookcase.bookcase.book.entity.BookInfo;
+import com.bookcase.bookcase.global.entity.BaseEntity;
+import com.bookcase.bookcase.member.entity.Member;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
