@@ -15,9 +15,6 @@ public class BookInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bno;
-    // 알라딘 책 고유 번호
-    @Column(unique = true)
-    private Long aladinItemId;
 
     private String title;
 
@@ -25,6 +22,7 @@ public class BookInfo {
 
     private String publisher;
 
+    @Column(unique = true)
     private String isbn13;
 
     private LocalDate publishDate;
