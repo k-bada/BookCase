@@ -13,5 +13,6 @@ public enum Genre {
     ROMANCE,          // 로맨스
     ESSAY,            // 에세이
     COMIC,            // 만화
-    ECONOMY           // 경제
+    ECONOMY,           // 경제
+    ETC
 }
