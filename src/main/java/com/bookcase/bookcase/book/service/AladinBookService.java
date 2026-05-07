@@ -1,4 +1,4 @@
-package com.bookcase.bookcase.book.sevice;
+package com.bookcase.bookcase.book.service;
 
 import com.bookcase.bookcase.book.DTO.BookDto;
 import com.bookcase.bookcase.book.DTO.BookDetailDto;

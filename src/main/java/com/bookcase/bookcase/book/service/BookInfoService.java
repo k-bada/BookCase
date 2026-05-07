@@ -1,13 +1,22 @@
-package com.bookcase.bookcase.book.sevice;
+package com.bookcase.bookcase.book.service;
 
 import com.bookcase.bookcase.book.DTO.BookDetailDto;
 import com.bookcase.bookcase.book.DTO.BookDetailResponseDto;
 import com.bookcase.bookcase.book.entity.BookInfo;
 import com.bookcase.bookcase.book.entity.Genre;
 import com.bookcase.bookcase.book.repository.BookInfoRepository;
+import com.bookcase.bookcase.member.DTO.LoginMemberDto;
+import com.bookcase.bookcase.member.entity.Member;
+import com.bookcase.bookcase.member.repository.MemberRepository;
+import com.bookcase.bookcase.record.entity.BookStatus;
+import com.bookcase.bookcase.record.entity.ReadingRecord;
+import com.bookcase.bookcase.record.repository.ReadingRecordRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 
@@ -17,22 +26,29 @@ public class BookInfoService {
 
     private final BookInfoRepository bookInfoRepository;
     private final AladinBookService aladinBookService;
+    private final ReadingRecordRepository readingRecordRepository;
+    private final MemberRepository memberRepository;
+    private final HttpSession session;
 
     @Transactional
-    public BookInfo addBook(String isbn13) {
+    public BookInfo addBook(BookDetailDto dto) {
 
-        //이미 저장된 책이면 기조 데이터 반환
-        return bookInfoRepository.findByIsbn13(isbn13)
+        LoginMemberDto loginMember =
+                (LoginMemberDto) session.getAttribute("loginMember");
+
+        if (loginMember == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "로그인이 필요합니다."
+            );
+        }
+
+        Member member = memberRepository.findById(loginMember.getMemberNo())
+                .orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
+
+        BookInfo bookInfo = bookInfoRepository.findByIsbn13(dto.getIsbn())
                 .orElseGet(() -> {
-
-                    //알라딘 책 상세
-                    BookDetailResponseDto response =
-                            aladinBookService.getBookDetail(isbn13);
-
-                    BookDetailDto dto = response.getItem();
-
-                    //Dto -> Entity 변환
-                    BookInfo bookInfo = BookInfo.builder()
+                    BookInfo newBookInfo = BookInfo.builder()
                             .title(dto.getTitle())
                             .author(dto.getAuthor())
                             .publisher(dto.getPublisher())
@@ -43,8 +59,28 @@ public class BookInfoService {
                             .genre(convertGenre(dto.getCategoryName()))
                             .build();
 
-                    return bookInfoRepository.save(bookInfo);
+                    return  bookInfoRepository.save(newBookInfo);
                 });
+
+        if (readingRecordRepository.existsByMemberAndBookInfo(member, bookInfo)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "이미 책장에 있는 책입니다."
+            );
+        }
+
+        //독서록 생성
+        ReadingRecord readingRecord =
+                ReadingRecord.builder()
+                        .bookInfo(bookInfo)
+                        .member(member)
+                        .status(BookStatus.TO_READ)
+                        .bookmarked(false)
+                        .build();
+
+        readingRecordRepository.save(readingRecord);
+
+        return bookInfo;
 
     }
 
