@@ -48,15 +48,21 @@ public class BookInfoService {
 
         BookInfo bookInfo = bookInfoRepository.findByIsbn13(dto.getIsbn())
                 .orElseGet(() -> {
+
+                    BookDetailResponseDto detailResponse =
+                            aladinBookService.getBookDetail(dto.getIsbn());
+
+                    BookDetailDto detailDto = detailResponse.getItem();
+
                     BookInfo newBookInfo = BookInfo.builder()
-                            .title(dto.getTitle())
-                            .author(dto.getAuthor())
-                            .publisher(dto.getPublisher())
-                            .isbn13(dto.getIsbn())
-                            .publishDate(parseDate(dto.getPubDate()))
-                            .bookPage(dto.getItemPage())
-                            .coverImageUrl(dto.getCover())
-                            .genre(convertGenre(dto.getCategoryName()))
+                            .title(detailDto.getTitle())
+                            .author(detailDto.getAuthor())
+                            .publisher(detailDto.getPublisher())
+                            .isbn13(detailDto.getIsbn())
+                            .publishDate(parseDate(detailDto.getPubDate()))
+                            .bookPage(detailDto.getItemPage())
+                            .coverImageUrl(detailDto.getCover())
+                            .genre(convertGenre(detailDto.getCategoryName()))
                             .build();
 
                     return  bookInfoRepository.save(newBookInfo);

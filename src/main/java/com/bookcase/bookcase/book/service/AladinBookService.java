@@ -34,7 +34,7 @@ public class AladinBookService {
                             .queryParam("ttbkey", ttbKey)
                             .queryParam("Query", query)
                             .queryParam("QueryType", "Keyword")
-                            .queryParam("MaxResults", 10)
+                            .queryParam("MaxResults", 20)
                             .queryParam("start", 1)
                             .queryParam("SearchTarget", "Book")
                             .queryParam("output", "js")
@@ -92,6 +92,7 @@ public class AladinBookService {
                             .queryParam("ItemId", isbn13)
                             .queryParam("output", "js")
                             .queryParam("Version", "20131101")
+                            .queryParam("OptResult", "SubInfo")
                             .build())
                     .retrieve()
                     .body(String.class);
