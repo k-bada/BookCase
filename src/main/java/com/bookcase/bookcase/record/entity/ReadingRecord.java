@@ -57,4 +57,17 @@ public class ReadingRecord extends BaseEntity {
     public void updateStatus(BookStatus status) {
         this.status = status;
     }
+
+    public void updateCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public void updateRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public void updateBookmarked(Boolean bookmarked) {
+        this.bookmarked = bookmarked;
+    }
+
 }
