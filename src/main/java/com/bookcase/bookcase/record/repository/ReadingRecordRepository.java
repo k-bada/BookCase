@@ -4,6 +4,7 @@ import com.bookcase.bookcase.book.entity.BookInfo;
 import com.bookcase.bookcase.member.entity.Member;
 import com.bookcase.bookcase.record.entity.BookStatus;
 import com.bookcase.bookcase.record.entity.ReadingRecord;
+import com.bookcase.bookcase.record.entity.RecordBlock;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,6 +21,7 @@ public interface ReadingRecordRepository extends JpaRepository<ReadingRecord, Lo
 
     Optional<ReadingRecord> findByRecordNoAndMember(Long recordNo, Member member);
 
+    // 검색용 쿼리
     @Query("""
     select r
     from ReadingRecord r
@@ -34,4 +36,5 @@ public interface ReadingRecordRepository extends JpaRepository<ReadingRecord, Lo
             @Param("status") BookStatus status,
             @Param("keyword") String keyword
     );
+
 }

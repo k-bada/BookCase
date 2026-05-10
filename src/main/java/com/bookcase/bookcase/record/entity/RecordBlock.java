@@ -7,7 +7,6 @@ import lombok.*;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -37,5 +36,16 @@ public class RecordBlock extends BaseEntity {
     private Integer page;
 
     private Integer orderIndex;
+
+    public void updateBlock(BlockType type, Question question, String content, Integer page, Integer orderIndex) {
+        this.type = type;
+        this.question = question;
+        this.content = content;
+        this.page = page;
+        this.orderIndex = orderIndex;
+
+    }
+
+
 
 }
