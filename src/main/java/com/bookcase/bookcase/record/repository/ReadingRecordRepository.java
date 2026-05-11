@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,4 +38,24 @@ public interface ReadingRecordRepository extends JpaRepository<ReadingRecord, Lo
             @Param("keyword") String keyword
     );
 
+    long countByMember(Member member);
+
+    // 이번달 읽기 시작한 책 수
+    long countByMemberAndStartDateBetween(
+            Member member,
+            LocalDate startDate,
+            LocalDate endDate
+    );
+
+    // 이번달 완독 수
+    long countByMemberAndStatusAndEndDateBetween(
+            Member member,
+            BookStatus status,
+            LocalDate startDate,
+            LocalDate endDate
+    );
+
+    List<ReadingRecord> findTop3ByMemberOrderByModDateDesc(Member member);
+
+    Optional<ReadingRecord> findTop1ByMemberOrderByModDateDesc(Member member);
 }
