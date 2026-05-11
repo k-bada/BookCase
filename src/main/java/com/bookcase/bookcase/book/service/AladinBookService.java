@@ -126,4 +126,51 @@ public class AladinBookService {
         }
     }
 
+    //베스트셀러 목록 조회
+    public BookSearchResponseDto getBestSellers(Integer categoryId) {
+        try {
+            String response = restClient.get()
+                    .uri(uriBuilder -> uriBuilder
+                            .scheme("http")
+                            .host("www.aladin.co.kr")
+                            .path("/ttb/api/ItemList.aspx")
+                            .queryParam("ttbkey", ttbKey)
+                            .queryParam("QueryType", "BestSeller")
+                            .queryParam("MaxResults", 100)
+                            .queryParam("start", 1)
+                            .queryParam("SearchTarget", "Book")
+                            .queryParam("CategoryId", categoryId == null ? 0 : categoryId)
+                            .queryParam("output", "js")
+                            .queryParam("Version","20131101")
+                            .build())
+                    .retrieve()
+                    .body(String.class);
+
+            JsonNode root = objectMapper.readTree(response);
+            JsonNode items = root.get("item");
+
+            List<BookDto> result = new ArrayList<>();
+
+            if (items != null) {
+                for (JsonNode item : items) {
+                    result.add(BookDto.builder()
+                            .title(item.get("title").asText())
+                            .author(item.get("author").asText())
+                            .cover(item.get("cover").asText())
+                            .isbn(item.get("isbn13").asText())
+                            .publisher(item.get("publisher").asText())
+                            .pubDate(item.get("pubDate").asText())
+                            .categoryName(item.get("categoryName").asText())
+                            .build());
+                }
+            }
+            return BookSearchResponseDto.builder()
+                    .item(result)
+                    .build();
+        } catch (Exception e) {
+            throw new RuntimeException("알라딘 베스트셀러 조회 실패", e);
+        }
+    }
+
+
 }

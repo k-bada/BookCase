@@ -2,6 +2,7 @@ package com.bookcase.bookcase.book.controller;
 
 import com.bookcase.bookcase.book.DTO.BookDetailDto;
 import com.bookcase.bookcase.book.DTO.BookDetailResponseDto;
+import com.bookcase.bookcase.book.DTO.BookSearchResponseDto;
 import com.bookcase.bookcase.book.entity.BookInfo;
 import com.bookcase.bookcase.book.service.AladinBookService;
 import com.bookcase.bookcase.book.service.BookInfoService;
@@ -36,5 +37,13 @@ public class BookInfoController {
     public BookInfo addBook(@RequestBody BookDetailDto dto) {
 
         return bookInfoService.addBook(dto);
+    }
+
+    //베스트셀러
+    @GetMapping("/bestseller")
+    public BookSearchResponseDto getBestSellers(
+            @RequestParam(required = false) Integer categoryId
+    ) {
+        return aladinBookService.getBestSellers(categoryId);
     }
 }
