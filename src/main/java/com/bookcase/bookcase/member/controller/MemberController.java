@@ -2,6 +2,7 @@ package com.bookcase.bookcase.member.controller;
 
 import com.bookcase.bookcase.member.DTO.LoginMemberDto;
 import com.bookcase.bookcase.member.DTO.LoginRequestDto;
+import com.bookcase.bookcase.member.DTO.SignupRequestDto;
 import com.bookcase.bookcase.member.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class MemberController {
     }
 
     @PostMapping("/me")
-    public ResponseEntity<?>  me(HttpSession session) {
+    public ResponseEntity<?> me(HttpSession session) {
         LoginMemberDto loginMemberDto =
                 (LoginMemberDto) session.getAttribute("loginMember");
 
@@ -51,4 +52,11 @@ public class MemberController {
         return ResponseEntity.ok(loginMemberDto);
     }
 
+    //회원가입
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody SignupRequestDto dto) {
+        memberService.signup(dto);
+
+        return ResponseEntity.ok("회원가입 성공");
+    }
 }
