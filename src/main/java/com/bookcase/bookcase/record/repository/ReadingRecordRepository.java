@@ -58,4 +58,5 @@ public interface ReadingRecordRepository extends JpaRepository<ReadingRecord, Lo
     List<ReadingRecord> findTop3ByMemberOrderByModDateDesc(Member member);
 
     Optional<ReadingRecord> findTop1ByMemberOrderByModDateDesc(Member member);
+
 }

@@ -110,7 +110,7 @@ public class ReadingRecordService {
         }
 
         // 완독으로 바뀌면 종료일 자동 저장
-        if (status == BookStatus.COMPLETED) {
+        if (status == BookStatus.COMPLETED || status == BookStatus.DROPPED) {
 
             if (readingRecord.getEndDate() == null) {
                 readingRecord.updateEndDate(LocalDate.now());
